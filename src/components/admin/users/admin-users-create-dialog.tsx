@@ -186,7 +186,7 @@ export function AdminUsersCreateDialog({
                     <Dialog.Title className="text-[20px] font-semibold text-foreground dark:text-white">
                       {isEditMode ? 'Editar Usuário' : 'Incluir Novo Usuário'}
                     </Dialog.Title>
-                    <Dialog.Description className="mt-1 text-[12px] text-foreground/60 dark:text-white/50">
+                    <Dialog.Description className="mt-1 text-[13px] leading-5 text-foreground/60 dark:text-white/50">
                       {isEditMode
                         ? 'Atualize os dados do usuário administrativo'
                         : 'Crie um novo usuário administrativo'}

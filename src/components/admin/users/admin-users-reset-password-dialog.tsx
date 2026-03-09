@@ -78,7 +78,7 @@ export function AdminUsersResetPasswordDialog({
                     <Dialog.Title className="text-[20px] font-semibold text-foreground dark:text-white">
                       Alterar Senha
                     </Dialog.Title>
-                    <Dialog.Description className="mt-1 text-[12px] text-foreground/60 dark:text-white/50">
+                    <Dialog.Description className="mt-1 text-[13px] leading-5 text-foreground/60 dark:text-white/50">
                       Altere a senha do usuário admin
                     </Dialog.Description>
                   </div>

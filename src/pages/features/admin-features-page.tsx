@@ -89,7 +89,7 @@ export function AdminFeaturesPage() {
             <h2 className="text-[20px] font-semibold text-foreground dark:text-white">
               Catálogo de Funcionalidades
             </h2>
-            <p className="mt-1 text-[12px] text-foreground/60 dark:text-white/50">
+            <p className="mt-1 text-[13px] leading-5 text-foreground/60 dark:text-white/50">
               Configure as funcionalidades ativas e sua prioridade de exibição
             </p>
           </div>
@@ -112,7 +112,7 @@ export function AdminFeaturesPage() {
                 role="checkbox"
                 aria-checked={premiumOnly}
                 onClick={() => setPremiumOnly((current) => !current)}
-                className="inline-flex items-center gap-2 text-[11px] text-foreground/55 transition-opacity hover:opacity-90 dark:text-white/45"
+                className="inline-flex items-center gap-2 text-[12px] text-foreground/60 transition-opacity hover:opacity-90 dark:text-white/52"
               >
                 <span
                   className={cn(
@@ -140,7 +140,7 @@ export function AdminFeaturesPage() {
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
                   placeholder="Busca rápida"
-                  className="h-full w-full bg-transparent pr-8 text-[12px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
+                  className="h-full w-full bg-transparent pr-8 text-[13px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
                 />
                 <Search className="pointer-events-none absolute right-4 size-4 text-foreground/60 dark:text-white/55" />
               </label>

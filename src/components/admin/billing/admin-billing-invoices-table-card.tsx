@@ -229,7 +229,7 @@ export function AdminBillingInvoicesTableCard({
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Busca rápida"
-                className="h-full w-full bg-transparent pr-8 text-[12px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
+                className="h-full w-full bg-transparent pr-8 text-[13px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
               />
               <Search className="pointer-events-none absolute right-4 size-4 text-foreground/60 dark:text-white/55" />
             </label>

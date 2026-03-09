@@ -14,7 +14,7 @@ export function AdminUsersFormFieldSurface({
   return (
     <div
       className={cn(
-        'group relative flex h-[66px] w-full items-center overflow-hidden rounded-[999px]',
+        'group relative flex h-14 w-full items-center overflow-hidden rounded-[999px]',
         'border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.015))]',
         'shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_10px_24px_rgba(0,0,0,0.18)]',
         'before:pointer-events-none before:absolute before:inset-[1px] before:rounded-[999px] before:border before:border-white/6',
@@ -73,7 +73,7 @@ export function AdminUsersTextField({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
-          className="h-full w-full bg-transparent px-8 text-[15px] font-medium text-foreground outline-none placeholder:text-foreground/80 dark:text-white dark:placeholder:text-white"
+          className="h-full w-full bg-transparent px-7 text-[14px] font-medium text-foreground outline-none placeholder:text-foreground/80 dark:text-white dark:placeholder:text-white"
         />
       </AdminUsersFormFieldSurface>
     </label>
@@ -98,13 +98,13 @@ export function AdminUsersSelectField({
       >
         <span
           className={cn(
-            'text-[15px] font-medium',
+            'text-[14px] font-medium',
             value ? 'text-foreground dark:text-white' : 'text-foreground/80 dark:text-white',
           )}
         >
           {value || placeholder}
         </span>
-        <ChevronDown className="size-5 text-foreground/70 dark:text-white/75" />
+        <ChevronDown className="size-[18px] text-foreground/70 dark:text-white/75" />
       </button>
     </AdminUsersFormFieldSurface>
   );
@@ -121,10 +121,10 @@ export function AdminUsersFormSection({
 }) {
   return (
     <div className="rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.015),rgba(255,255,255,0.01))] px-6 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-7">
-      <h3 className="text-[16px] font-semibold text-foreground dark:text-white">
+      <h3 className="text-[18px] font-semibold text-foreground dark:text-white">
         {title}
       </h3>
-      <p className="mt-1 text-[12px] text-foreground/60 dark:text-white/50">
+      <p className="mt-1 text-[13px] leading-5 text-foreground/60 dark:text-white/50">
         {description}
       </p>
       <div className="mt-8">{children}</div>

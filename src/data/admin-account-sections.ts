@@ -42,12 +42,14 @@ export const ADMIN_ACCOUNT_SECTION: AdminHomeSection = {
     {
       src: '/images/admin-access.svg',
       label: 'Perfil de Acesso',
-      active: false,
+      href: '/access-profile',
+      active: true,
     },
     {
       src: '/images/admin-plans.svg',
       label: 'Planos',
-      active: false,
+      href: '/plans',
+      active: true,
     },
   ],
 };

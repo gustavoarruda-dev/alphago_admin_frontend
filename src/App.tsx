@@ -5,6 +5,8 @@ import { AdminDashboardPageSkeleton } from '@/components/admin/dashboard/admin-d
 import { AdminBillingPageSkeleton } from '@/components/admin/billing/admin-billing-page-skeleton';
 import { AdminFeaturesPageSkeleton } from '@/components/admin/features/admin-features-page-skeleton';
 import { AdminUsersPageSkeleton } from '@/components/admin/users/admin-users-page-skeleton';
+import { AdminAccessProfilePageSkeleton } from '@/components/admin/access-profile/admin-access-profile-page-skeleton';
+import { AdminPlansPageSkeleton } from '@/components/admin/plans/admin-plans-page-skeleton';
 
 const AccountSettingsPageLazy = lazy(() =>
   import('@/pages/account-settings/account-settings-page').then((module) => ({
@@ -33,6 +35,18 @@ const AdminUsersPageLazy = lazy(() =>
 const AdminFeaturesPageLazy = lazy(() =>
   import('@/pages/features/admin-features-page').then((module) => ({
     default: module.AdminFeaturesPage,
+  })),
+);
+
+const AdminAccessProfilePageLazy = lazy(() =>
+  import('@/pages/access-profile/admin-access-profile-page').then((module) => ({
+    default: module.AdminAccessProfilePage,
+  })),
+);
+
+const AdminPlansPageLazy = lazy(() =>
+  import('@/pages/plans/admin-plans-page').then((module) => ({
+    default: module.AdminPlansPage,
   })),
 );
 
@@ -80,6 +94,22 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/access-profile"
+        element={
+          <Suspense fallback={<AdminAccessProfilePageSkeleton />}>
+            <AdminAccessProfilePageLazy />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/plans"
+        element={
+          <Suspense fallback={<AdminPlansPageSkeleton />}>
+            <AdminPlansPageLazy />
+          </Suspense>
+        }
+      />
+      <Route
         path="/settings/account/dashboard"
         element={<Navigate to="/dashboard" replace />}
       />
@@ -94,6 +124,14 @@ function AppRoutes() {
       <Route
         path="/settings/account/features"
         element={<Navigate to="/features" replace />}
+      />
+      <Route
+        path="/settings/account/access-profile"
+        element={<Navigate to="/access-profile" replace />}
+      />
+      <Route
+        path="/settings/account/plans"
+        element={<Navigate to="/plans" replace />}
       />
       <Route path="/" element={<Navigate to="/settings/account" replace />} />
       <Route path="*" element={<Navigate to="/settings/account" replace />} />

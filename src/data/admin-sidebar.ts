@@ -37,8 +37,13 @@ export const ADMIN_SIDEBAR_ENTRIES: AdminSidebarLink[] = [
     icon: '/images/admin-features.svg',
     href: '/features',
   },
-  { id: 'access', label: 'Perfil de Acesso', icon: '/images/admin-access.svg', disabled: true },
-  { id: 'plans', label: 'Planos', icon: '/images/admin-plans.svg', disabled: true },
+  {
+    id: 'access',
+    label: 'Perfil de Acesso',
+    icon: '/images/admin-access.svg',
+    href: '/access-profile',
+  },
+  { id: 'plans', label: 'Planos', icon: '/images/admin-plans.svg', href: '/plans' },
 ];
 
 export const ADMIN_SIDEBAR_FOOTER: AdminSidebarLink = {

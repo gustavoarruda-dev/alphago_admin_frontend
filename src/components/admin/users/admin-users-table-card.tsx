@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
-import { EyeOff, KeyRound, Search, SquarePen, UserRoundX } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { KeyRound, Search, SquarePen, UserRoundCheck, UserRoundX } from 'lucide-react';
 import { CardGradient } from '@/components/ui/card-gradient';
 import { DataTable, type DataTableColumn, type DataTableSortState } from '@/components/ui/data-table';
 import { ButtonBorder } from '@/components/ui/button-border';
@@ -11,6 +11,7 @@ import type { AdminUserAdminRow } from '@/data/admin-users';
 import { AdminUsersCreateDialog } from './admin-users-create-dialog';
 import { AdminUsersResetPasswordDialog } from './admin-users-reset-password-dialog';
 import { AdminUsersStatusPill } from './admin-users-status-pill';
+import { AdminUsersToggleStatusDialog } from './admin-users-toggle-status-dialog';
 
 export function AdminUsersTableCard({
   title,
@@ -26,24 +27,30 @@ export function AdminUsersTableCard({
   const exportRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
+  const [tableRows, setTableRows] = useState(rows);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUserAdminRow | null>(null);
   const [resetPasswordDialogOpen, setResetPasswordDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<AdminUserAdminRow | null>(null);
-  const tableLoadingKey = JSON.stringify({ searchTerm, rowsCount: rows.length });
+  const [toggleStatusDialogOpen, setToggleStatusDialogOpen] = useState(false);
+  const tableLoadingKey = JSON.stringify({ searchTerm, rowsCount: tableRows.length });
   const isTableLoading = useKeyedTransientLoading(tableLoadingKey);
+
+  useEffect(() => {
+    setTableRows(rows);
+  }, [rows]);
 
   const filteredRows = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
-    if (!normalizedSearch) return rows;
+    if (!normalizedSearch) return tableRows;
 
-    return rows.filter((row) =>
+    return tableRows.filter((row) =>
       [row.name, row.email, row.role, row.lastAccess, row.statusLabel]
         .join(' ')
         .toLowerCase()
         .includes(normalizedSearch),
     );
-  }, [rows, searchTerm]);
+  }, [tableRows, searchTerm]);
 
   const columns = useMemo<Array<DataTableColumn<AdminUserAdminRow>>>(
     () => [
@@ -131,25 +138,23 @@ export function AdminUsersTableCard({
             <button
               type="button"
               aria-label={`Desativar ${row.name}`}
-              onClick={() =>
-                toast({
-                  title: 'Gerenciamento de acesso',
-                  description: `A ação de acesso de ${row.name} será conectada na próxima etapa.`,
-                })
-              }
+              onClick={() => {
+                setSelectedUser(row);
+                setToggleStatusDialogOpen(true);
+              }}
               className="inline-flex size-7 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
             >
               {row.status === 'active' ? (
                 <UserRoundX className="size-4" />
               ) : (
-                <EyeOff className="size-4" />
+                <UserRoundCheck className="size-4" />
               )}
             </button>
           </div>
         ),
       },
     ],
-    [toast],
+    [],
   );
 
   const exportData = useMemo<TabularExportData>(
@@ -189,7 +194,7 @@ export function AdminUsersTableCard({
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Busca rápida"
-                className="h-full w-full bg-transparent pr-8 text-[12px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
+                className="h-full w-full bg-transparent pr-8 text-[13px] text-inherit placeholder:text-foreground/60 focus:outline-none dark:placeholder:text-white/55"
               />
               <Search className="pointer-events-none absolute right-4 size-4 text-foreground/60 dark:text-white/55" />
             </label>
@@ -245,6 +250,42 @@ export function AdminUsersTableCard({
         onOpenChange={(open) => {
           setResetPasswordDialogOpen(open);
           if (!open) setSelectedUser(null);
+        }}
+      />
+      <AdminUsersToggleStatusDialog
+        user={selectedUser}
+        open={toggleStatusDialogOpen}
+        onOpenChange={(open) => {
+          setToggleStatusDialogOpen(open);
+          if (!open) setSelectedUser(null);
+        }}
+        onConfirm={() => {
+          if (!selectedUser) return;
+
+          setTableRows((current) =>
+            current.map((row) =>
+              row.id === selectedUser.id
+                ? {
+                    ...row,
+                    status: row.status === 'active' ? 'inactive' : 'active',
+                    statusLabel: row.status === 'active' ? 'Inativo' : 'Ativo',
+                  }
+                : row,
+            ),
+          );
+
+          toast({
+            title:
+              selectedUser.status === 'active'
+                ? 'Administrador desativado'
+                : 'Administrador reativado',
+            description:
+              selectedUser.status === 'active'
+                ? `${selectedUser.name} foi desativado com sucesso.`
+                : `${selectedUser.name} foi reativado com sucesso.`,
+          });
+          setToggleStatusDialogOpen(false);
+          setSelectedUser(null);
         }}
       />
     </CardGradient>
