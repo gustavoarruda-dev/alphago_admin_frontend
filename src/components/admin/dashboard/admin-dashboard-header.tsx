@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import type { ReactNode } from 'react';
 import { AdminBrandMark } from '@/components/admin/admin-brand-mark';
 import { AdminUserMenu } from '@/components/admin/admin-user-menu';
 import { ButtonBorder } from '@/components/ui/button-border';
@@ -14,7 +13,7 @@ type AdminDashboardHeaderProps = {
   activeTab: AdminDashboardTabId;
   currentDateTime: string;
   filterItems: AdminDashboardFilterItem[];
-  filterPopoverContent: ReactNode;
+  renderFilterPopoverContent: (state: { isOpen: boolean }) => React.ReactNode;
   onTabChange: (tab: AdminDashboardTabId) => void;
 };
 
@@ -22,7 +21,7 @@ export function AdminDashboardHeader({
   activeTab,
   currentDateTime,
   filterItems,
-  filterPopoverContent,
+  renderFilterPopoverContent,
   onTabChange,
 }: AdminDashboardHeaderProps) {
   const navigate = useNavigate();
@@ -93,7 +92,7 @@ export function AdminDashboardHeader({
       <div className="mt-8">
         <AdminDashboardFilterSummary
           items={filterItems}
-          filterPopoverContent={filterPopoverContent}
+          renderFilterPopoverContent={renderFilterPopoverContent}
         />
       </div>
     </header>

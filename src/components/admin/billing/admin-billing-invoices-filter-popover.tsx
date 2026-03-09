@@ -1,8 +1,9 @@
 import * as Popover from '@radix-ui/react-popover';
 import { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react';
+import { AdminOverlaySkeleton } from '@/components/admin/admin-overlay-skeleton';
 import { ButtonBorder } from '@/components/ui/button-border';
-import { useToast } from '@/hooks';
+import { useToast, useTransientLoading } from '@/hooks';
 import { fromIsoDate, toIsoDate } from '@/lib/iso-date';
 import { cn } from '@/lib/utils';
 import { AdminCalendarRange, type DateRangeValue } from '@/components/admin/dashboard/admin-calendar-range';
@@ -111,6 +112,7 @@ export function AdminBillingInvoicesFilterPopover({
   }));
   const [status, setStatus] = useState<AdminBillingInvoiceStatus | null>(value.status);
   const [paymentMethod, setPaymentMethod] = useState<string | null>(value.paymentMethod);
+  const isLoading = useTransientLoading(open);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -207,6 +209,9 @@ export function AdminBillingInvoicesFilterPopover({
           aria-label="Selecionar Período"
         >
           <AdminFilterPopoverSurface>
+            {isLoading ? (
+              <AdminOverlaySkeleton showCalendar showDualSelects />
+            ) : (
             <div className="px-6 py-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -269,6 +274,7 @@ export function AdminBillingInvoicesFilterPopover({
                 </button>
               </div>
             </div>
+            )}
           </AdminFilterPopoverSurface>
         </Popover.Content>
       </Popover.Portal>

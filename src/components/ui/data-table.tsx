@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Skeleton } from './skeleton';
 import { dataTableAlignClass, nodeToText, type DataTableAlign } from './data-table-utils';
 
 export type DataTableSortOrder = 'asc' | 'desc';
@@ -272,11 +273,18 @@ export function DataTable<Row>({
         </thead>
         <tbody>
           {isLoading ? (
-            <tr className="border-b border-border/60 dark:border-white/10">
-              <td colSpan={columns.length} className="px-4 py-6 text-sm text-gray-400">
-                Carregando dados...
-              </td>
-            </tr>
+            Array.from({ length: 5 }).map((_, rowIndex) => (
+              <tr
+                key={`skeleton-${rowIndex}`}
+                className="border-b border-border/60 dark:border-white/10"
+              >
+                {columns.map((column) => (
+                  <td key={column.id} className="px-4 py-4">
+                    <Skeleton className="h-4 w-full max-w-[140px] rounded-md" />
+                  </td>
+                ))}
+              </tr>
+            ))
           ) : sortedRows.length === 0 ? (
             <tr className="border-b border-border/60 dark:border-white/10">
               <td colSpan={columns.length} className="px-4 py-6">

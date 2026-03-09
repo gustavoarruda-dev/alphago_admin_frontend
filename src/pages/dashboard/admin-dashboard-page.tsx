@@ -8,6 +8,7 @@ import {
 } from '@/components/admin/dashboard/admin-dashboard-filter-popover';
 import { AdminDashboardHeader } from '@/components/admin/dashboard/admin-dashboard-header';
 import { AdminDashboardLineChartCard } from '@/components/admin/dashboard/admin-dashboard-line-chart-card';
+import { AdminDashboardPageSkeleton } from '@/components/admin/dashboard/admin-dashboard-page-skeleton';
 import type { DataTableSortState } from '@/components/ui/data-table';
 import {
   ADMIN_CONSUMPTION_AUDIT_MODELS,
@@ -18,7 +19,7 @@ import {
   type AdminDashboardFilterItem,
   type AdminDashboardTabId,
 } from '@/data/admin-dashboard';
-import { useCurrentDateTime, useToast } from '@/hooks';
+import { useCurrentDateTime, useToast, useTransientLoading } from '@/hooks';
 import { formatDateRangePt } from '@/lib/iso-date';
 
 function formatCurrency(value: number) {
@@ -55,6 +56,7 @@ function formatComparisonLabel(value: AdminDashboardFilterValue): string {
 export function AdminDashboardPage() {
   const currentDateTime = useCurrentDateTime();
   const { toast } = useToast();
+  const isLoading = useTransientLoading();
   const [activeTab, setActiveTab] = useState<AdminDashboardTabId>('subscribers');
   const [consumptionAuditSort, setConsumptionAuditSort] = useState<DataTableSortState>({
     sortBy: 'dateTime',
@@ -119,6 +121,10 @@ export function AdminDashboardPage() {
     );
   }, [activeFilters.models]);
 
+  if (isLoading) {
+    return <AdminDashboardPageSkeleton />;
+  }
+
   return (
     <AdminShell activeSidebarItem="dashboard">
       <section className="w-full max-w-[1750px] mx-auto px-4 sm:px-8 lg:px-16">
@@ -126,8 +132,9 @@ export function AdminDashboardPage() {
           activeTab={activeTab}
           currentDateTime={currentDateTime}
           filterItems={filterItems}
-          filterPopoverContent={
+          renderFilterPopoverContent={({ isOpen }) => (
             <AdminDashboardFilterPopoverContent
+              open={isOpen}
               value={activeFilters}
               onApply={(next) => {
                 setFiltersByTab((previous) => ({
@@ -169,7 +176,7 @@ export function AdminDashboardPage() {
                   : undefined
               }
             />
-          }
+          )}
           onTabChange={setActiveTab}
         />
 

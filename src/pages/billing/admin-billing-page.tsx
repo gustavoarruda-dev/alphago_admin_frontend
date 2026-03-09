@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AdminShell } from '@/components/admin/admin-shell';
 import { AdminSectionHeader } from '@/components/admin/admin-section-header';
+import { AdminBillingPageSkeleton } from '@/components/admin/billing/admin-billing-page-skeleton';
 import { AdminBillingInvoicesTableCard } from '@/components/admin/billing/admin-billing-invoices-table-card';
 import { AdminBillingMixedChartCard } from '@/components/admin/billing/admin-billing-mixed-chart-card';
 import { AdminDashboardLineChartCard } from '@/components/admin/dashboard/admin-dashboard-line-chart-card';
@@ -12,7 +13,7 @@ import {
   ADMIN_BILLING_EXCESS_COST_EVOLUTION,
   ADMIN_BILLING_INVOICE_ROWS,
 } from '@/data/admin-billing';
-import { useCurrentDateTime, useToast } from '@/hooks';
+import { useCurrentDateTime, useToast, useTransientLoading } from '@/hooks';
 
 function formatCurrencyCompact(value: number): string {
   if (value >= 1_000_000) {
@@ -42,10 +43,15 @@ function formatCurrencyPrecise(value: number): string {
 export function AdminBillingPage() {
   const currentDateTime = useCurrentDateTime();
   const { toast } = useToast();
+  const isLoading = useTransientLoading();
   const [invoiceSort, setInvoiceSort] = useState<DataTableSortState>({
     sortBy: 'issuedAt',
     sortOrder: 'desc',
   });
+
+  if (isLoading) {
+    return <AdminBillingPageSkeleton />;
+  }
 
   return (
     <AdminShell activeSidebarItem="billing">

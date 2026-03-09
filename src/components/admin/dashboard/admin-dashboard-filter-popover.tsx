@@ -2,9 +2,10 @@ import * as Popover from '@radix-ui/react-popover';
 import { useEffect, useMemo, useState } from 'react';
 import { X } from 'lucide-react';
 import { z } from 'zod';
+import { AdminOverlaySkeleton } from '@/components/admin/admin-overlay-skeleton';
 import { ButtonBorder } from '@/components/ui/button-border';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks';
+import { useToast, useTransientLoading } from '@/hooks';
 import { fromIsoDate, toIsoDate } from '@/lib/iso-date';
 import { AdminCalendarRange, type DateRangeValue } from './admin-calendar-range';
 import { AdminFilterPopoverSurface } from './admin-filter-popover-surface';
@@ -56,6 +57,7 @@ export const adminDashboardFiltersSchema = z
 export type AdminDashboardFilterValue = z.infer<typeof adminDashboardFiltersSchema>;
 
 type AdminDashboardFilterPopoverContentProps = {
+  open?: boolean;
   value: AdminDashboardFilterValue;
   onApply: (value: AdminDashboardFilterValue) => void;
   onClear: () => void;
@@ -73,6 +75,7 @@ type AdminDashboardFilterPopoverContentProps = {
 };
 
 export function AdminDashboardFilterPopoverContent({
+  open = false,
   value,
   onApply,
   onClear,
@@ -89,6 +92,7 @@ export function AdminDashboardFilterPopoverContent({
     { mode: 'custom', label: 'Personalizado' },
   ],
 }: AdminDashboardFilterPopoverContentProps) {
+  const isLoading = useTransientLoading(open);
   const [period, setPeriod] = useState<DateRangeValue>(() => ({
     from: fromIsoDate(value.period.startDate),
     to: fromIsoDate(value.period.endDate),
@@ -208,6 +212,12 @@ export function AdminDashboardFilterPopoverContent({
         aria-label={dialogLabel}
       >
         <AdminFilterPopoverSurface>
+          {isLoading ? (
+            <AdminOverlaySkeleton
+              showCalendar
+              showSections={showModels ? 1 : 0}
+            />
+          ) : (
           <div className="px-6 py-6">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -332,6 +342,7 @@ export function AdminDashboardFilterPopoverContent({
               </button>
             </div>
           </div>
+          )}
         </AdminFilterPopoverSurface>
       </Popover.Content>
     </Popover.Portal>

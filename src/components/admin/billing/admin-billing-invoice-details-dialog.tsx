@@ -1,8 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
+import { AdminOverlaySkeleton } from '@/components/admin/admin-overlay-skeleton';
 import { AdminFilterPopoverSurface } from '@/components/admin/dashboard/admin-filter-popover-surface';
 import { ButtonBorder } from '@/components/ui/button-border';
 import { CardGradient } from '@/components/ui/card-gradient';
+import { useTransientLoading } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { AdminBillingInvoiceDetails, AdminBillingInvoiceRow } from '@/data/admin-billing';
 
@@ -61,6 +63,8 @@ export function AdminBillingInvoiceDetailsDialog({
   onOpenChange: (open: boolean) => void;
   onPay: (row: AdminBillingInvoiceRow) => void;
 }) {
+  const isLoading = useTransientLoading(open);
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -73,6 +77,9 @@ export function AdminBillingInvoiceDetailsDialog({
           aria-describedby={undefined}
         >
           <AdminFilterPopoverSurface className="max-h-[92vh] rounded-[28px] shadow-[0px_30px_80px_rgba(0,0,0,0.5)]">
+            {isLoading ? (
+              <AdminOverlaySkeleton showSections={4} />
+            ) : (
             <div className="px-5 py-5 sm:px-6 sm:py-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -162,6 +169,7 @@ export function AdminBillingInvoiceDetailsDialog({
                 </ButtonBorder>
               </div>
             </div>
+            )}
           </AdminFilterPopoverSurface>
         </Dialog.Content>
       </Dialog.Portal>

@@ -1,11 +1,17 @@
 import { AdminShell } from '@/components/admin/admin-shell';
+import { AdminPageSkeleton } from '@/components/admin/admin-page-skeleton';
 import { AdminSectionHeader } from '@/components/admin/admin-section-header';
 import { AdminSettingsSectionCard } from '@/components/admin/admin-settings-section-card';
 import { ADMIN_ACCOUNT_SECTION } from '@/data/admin-account-sections';
-import { useCurrentDateTime } from '@/hooks';
+import { useCurrentDateTime, useTransientLoading } from '@/hooks';
 
 export function AccountSettingsPage() {
   const currentDateTime = useCurrentDateTime();
+  const isLoading = useTransientLoading();
+
+  if (isLoading) {
+    return <AdminPageSkeleton />;
+  }
 
   return (
     <AdminShell activeSidebarItem="account">

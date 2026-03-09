@@ -1,18 +1,19 @@
 import * as Popover from '@radix-ui/react-popover';
-import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { ButtonBorder } from '@/components/ui/button-border';
 import { cn } from '@/lib/utils';
 import type { AdminDashboardFilterItem } from '@/data/admin-dashboard';
 
 type AdminDashboardFilterSummaryProps = {
   items: AdminDashboardFilterItem[];
-  filterPopoverContent: ReactNode;
+  renderFilterPopoverContent: (state: { isOpen: boolean }) => React.ReactNode;
 };
 
 export function AdminDashboardFilterSummary({
   items,
-  filterPopoverContent,
+  renderFilterPopoverContent,
 }: AdminDashboardFilterSummaryProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const mdColsClass =
     items.length <= 1
       ? 'md:grid-cols-1'
@@ -38,7 +39,7 @@ export function AdminDashboardFilterSummary({
           ))}
         </div>
 
-        <Popover.Root>
+        <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
           <Popover.Trigger asChild>
             <ButtonBorder
               type="button"
@@ -48,7 +49,7 @@ export function AdminDashboardFilterSummary({
               Filtrar
             </ButtonBorder>
           </Popover.Trigger>
-          {filterPopoverContent}
+          {renderFilterPopoverContent({ isOpen })}
         </Popover.Root>
       </div>
     </div>
