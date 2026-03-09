@@ -2,13 +2,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function AdminPageSkeleton() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden app-gradient bg-background text-foreground p-4 md:p-8">
-      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-[1440px] gap-4">
-        <div className="card-sidebar hidden w-[88px] rounded-[22px] px-4 py-6 md:block">
+    <div className="relative min-h-screen w-full overflow-hidden app-gradient bg-background text-foreground">
+      <div className="hidden md:block fixed left-5 top-5 bottom-5 z-20 h-[calc(100vh-2.5rem)] w-[88px]">
+        <div className="card-sidebar h-full rounded-[18px] px-4 py-6">
           <div className="flex h-full flex-col items-center">
             <Skeleton className="size-12 rounded-full" />
             <div className="mt-10 flex flex-col items-center gap-6">
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 7 }).map((_, index) => (
                 <Skeleton key={index} className="size-6 rounded-full" />
               ))}
             </div>
@@ -17,15 +17,32 @@ export function AdminPageSkeleton() {
             </div>
           </div>
         </div>
-        <div className="flex-1 space-y-6 rounded-[36px] px-2 py-4 md:px-8 md:py-8">
-          <Skeleton className="h-10 w-56 rounded-full" />
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <Skeleton className="h-8 w-80 rounded-full" />
-            <Skeleton className="h-6 w-48 rounded-full" />
+      </div>
+
+      <main className="relative z-10 md:ml-[120px] p-4 sm:p-6 pb-16 sm:pb-24 md:pb-6">
+        <section className="w-full max-w-[1750px] mx-auto px-4 sm:px-8 lg:px-16">
+          <div className="flex items-center justify-between gap-4">
+            <Skeleton className="h-10 w-44 rounded-md" />
+            <Skeleton className="size-6 rounded-full" />
           </div>
-          <div className="card-gradient-bg rounded-[30px] p-8">
-            <Skeleton className="mb-8 h-8 w-40 rounded-full" />
-            <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+
+          <div className="mt-4 flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-4">
+                <Skeleton className="size-8 rounded-full" />
+                <Skeleton className="h-5 w-72 rounded-full" />
+              </div>
+              <div className="mt-6 space-y-3">
+                <Skeleton className="h-8 w-48 rounded-md" />
+                <Skeleton className="h-5 w-80 rounded-md" />
+              </div>
+            </div>
+            <Skeleton className="h-5 w-56 rounded-md xl:mt-[3.6rem]" />
+          </div>
+
+          <div className="mt-6 rounded-[22px] card-gradient-bg p-6 sm:p-7">
+            <Skeleton className="h-8 w-44 rounded-md" />
+            <div className="mt-6 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
               {Array.from({ length: 6 }).map((_, index) => (
                 <Skeleton
                   key={index}
@@ -34,8 +51,8 @@ export function AdminPageSkeleton() {
               ))}
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }
