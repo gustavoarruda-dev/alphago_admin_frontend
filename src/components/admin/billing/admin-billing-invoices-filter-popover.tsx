@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { AdminCalendarRange, type DateRangeValue } from '@/components/admin/dashboard/admin-calendar-range';
 import { AdminFilterPopoverSurface } from '@/components/admin/dashboard/admin-filter-popover-surface';
 import { AdminSelectableOptionRow } from '@/components/admin/dashboard/admin-selectable-option-row';
+import { AdminUsersSelectPopoverSurface } from '@/components/admin/users/admin-users-form-field';
 import {
   ADMIN_BILLING_DEFAULT_INVOICE_FILTERS,
   ADMIN_BILLING_PAYMENT_METHODS,
@@ -69,7 +70,7 @@ function BillingFilterSelect<T extends string | null>({
           avoidCollisions={false}
           className="z-[85] w-[var(--radix-popover-trigger-width)] min-w-[220px] outline-none"
         >
-          <div className="overflow-hidden rounded-[22px] border border-white/10 card-gradient-bg-modal shadow-[0px_12px_36px_rgba(0,0,0,0.32)]">
+          <AdminUsersSelectPopoverSurface>
             <div className="max-h-[240px] overflow-y-auto p-2">
               {options.map((option) => {
                 const checked = option.value === value;
@@ -89,7 +90,7 @@ function BillingFilterSelect<T extends string | null>({
                 );
               })}
             </div>
-          </div>
+          </AdminUsersSelectPopoverSurface>
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

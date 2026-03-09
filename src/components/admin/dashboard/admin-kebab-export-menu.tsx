@@ -1,6 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { MoreVertical } from 'lucide-react';
+import { AdminMiniPopoverSkeleton } from '@/components/admin/admin-mini-popover-skeleton';
+import { useTransientLoading } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks';
 import {
@@ -30,6 +32,7 @@ export function AdminKebabExportMenu({
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isExporting, setIsExporting] = useState<ExportFormat | null>(null);
+  const isLoading = useTransientLoading(isOpen);
   const isBusy = isExporting !== null;
 
   const items = useMemo(() => {
@@ -101,45 +104,53 @@ export function AdminKebabExportMenu({
       <Popover.Content
         align="end"
         sideOffset={8}
-        className={cn(
-          'z-50 w-48 rounded-xl border p-2 shadow-xl backdrop-blur-md',
-          'border-border bg-background',
-          'dark:border-white/10 dark:bg-[#0B0B12]/95',
-        )}
+        className="z-50 outline-none"
       >
-        <div className="flex flex-col">
-          {items.map((format) => {
-            const label =
-              format === 'png'
-                ? 'Exportar PNG'
-                : format === 'pdf'
-                  ? 'Exportar PDF'
-                  : format === 'csv'
-                    ? 'Exportar CSV'
-                    : 'Exportar XLS';
-            const disabled =
-              isBusy ||
-              ((format === 'csv' || format === 'xls') &&
-                (!tableData || tableData.rows.length === 0));
+        {isLoading ? (
+          <AdminMiniPopoverSkeleton rows={kind === 'chart' ? 2 : 4} widthClassName="w-48" />
+        ) : (
+          <div
+            className={cn(
+              'w-48 rounded-xl border p-2 shadow-xl backdrop-blur-md',
+              'border-border bg-background',
+              'dark:border-white/10 dark:bg-[#0B0B12]/95',
+            )}
+          >
+            <div className="flex flex-col">
+              {items.map((format) => {
+                const label =
+                  format === 'png'
+                    ? 'Exportar PNG'
+                    : format === 'pdf'
+                      ? 'Exportar PDF'
+                      : format === 'csv'
+                        ? 'Exportar CSV'
+                        : 'Exportar XLS';
+                const disabled =
+                  isBusy ||
+                  ((format === 'csv' || format === 'xls') &&
+                    (!tableData || tableData.rows.length === 0));
 
-            return (
-              <button
-                key={format}
-                type="button"
-                className={cn(
-                  'w-full rounded-lg px-3 py-2 text-left text-sm',
-                  'text-foreground/90 hover:bg-foreground/5',
-                  'dark:text-white/85 dark:hover:bg-white/5',
-                  'disabled:cursor-not-allowed disabled:opacity-40',
-                )}
-                disabled={disabled}
-                onClick={() => void handleExport(format)}
-              >
-                {isExporting === format ? 'Exportando…' : label}
-              </button>
-            );
-          })}
-        </div>
+                return (
+                  <button
+                    key={format}
+                    type="button"
+                    className={cn(
+                      'w-full rounded-lg px-3 py-2 text-left text-sm',
+                      'text-foreground/90 hover:bg-foreground/5',
+                      'dark:text-white/85 dark:hover:bg-white/5',
+                      'disabled:cursor-not-allowed disabled:opacity-40',
+                    )}
+                    disabled={disabled}
+                    onClick={() => void handleExport(format)}
+                  >
+                    {isExporting === format ? 'Exportando…' : label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </Popover.Content>
     </Popover.Root>
   );

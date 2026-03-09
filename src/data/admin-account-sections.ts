@@ -30,12 +30,14 @@ export const ADMIN_ACCOUNT_SECTION: AdminHomeSection = {
     {
       src: '/images/admin-users.svg',
       label: 'Usuários Adm',
-      active: false,
+      href: '/users-admin',
+      active: true,
     },
     {
       src: '/images/admin-features.svg',
       label: 'Funcionalidades',
-      active: false,
+      href: '/features',
+      active: true,
     },
     {
       src: '/images/admin-access.svg',

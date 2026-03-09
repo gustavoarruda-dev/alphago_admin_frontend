@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { AdminSidebar } from '@/components/admin/admin-sidebar';
 import { ADMIN_SIDEBAR_ENTRIES, ADMIN_SIDEBAR_FOOTER } from '@/data/admin-sidebar';
-import { toast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 export function AdminShell({
@@ -23,12 +22,6 @@ export function AdminShell({
       return;
     }
 
-    if (id === 'settings') return;
-
-    toast({
-      title: 'Layout admin base',
-      description: 'A navegação lateral já está preparada; as demais páginas entram na sequência.',
-    });
   };
 
   return (

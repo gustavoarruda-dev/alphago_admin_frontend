@@ -1,5 +1,8 @@
 import * as Popover from '@radix-ui/react-popover';
+import { useState } from 'react';
 import { LogOut, Settings, Sun, User } from 'lucide-react';
+import { AdminMiniPopoverSkeleton } from '@/components/admin/admin-mini-popover-skeleton';
+import { useTransientLoading } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/components/theme';
 import { toast } from '@/hooks/use-toast';
@@ -34,9 +37,11 @@ function MenuItem({ icon, label, disabled = false, onClick }: MenuItemProps) {
 
 export function AdminUserMenu() {
   const { theme, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const isLoading = useTransientLoading(open);
 
   return (
-    <Popover.Root>
+    <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <button
           type="button"
@@ -52,46 +57,53 @@ export function AdminUserMenu() {
           side="bottom"
           align="end"
           sideOffset={10}
-          className={cn(
-            'z-[80] w-[220px]',
-            'rounded-2xl border border-white/10 p-2',
-            'card-gradient-bg-modal',
-            'user-account-popover-surface',
-            'shadow-[0px_6px_16px_rgba(0,0,0,0.12)] dark:shadow-[0px_10px_40px_rgba(0,0,0,0.45)]',
-          )}
+          className="z-[80] outline-none"
         >
-          <div className="flex flex-col gap-1">
-            <MenuItem
-              icon={<User className="size-6 text-foreground/80" />}
-              label="Perfil"
-              disabled
-            />
-            <MenuItem
-              icon={<Sun className="size-6 text-foreground/60" />}
-              label={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            />
-            <MenuItem
-              icon={<Settings className="size-6 text-foreground/80" />}
-              label="Configurações"
-              onClick={() =>
-                toast({
-                  title: 'Configurações do admin',
-                  description: 'Essa área será conectada na próxima etapa.',
-                })
-              }
-            />
-            <MenuItem
-              icon={<LogOut className="size-6 text-foreground/80" />}
-              label="Sair"
-              onClick={() =>
-                toast({
-                  title: 'Área administrativa',
-                  description: 'O fluxo de autenticação do admin entra na próxima etapa.',
-                })
-              }
-            />
-          </div>
+          {isLoading ? (
+            <AdminMiniPopoverSkeleton rows={4} widthClassName="w-[220px]" />
+          ) : (
+            <div
+              className={cn(
+                'w-[220px] rounded-2xl border border-white/10 p-2',
+                'card-gradient-bg-modal',
+                'user-account-popover-surface',
+                'shadow-[0px_6px_16px_rgba(0,0,0,0.12)] dark:shadow-[0px_10px_40px_rgba(0,0,0,0.45)]',
+              )}
+            >
+              <div className="flex flex-col gap-1">
+                <MenuItem
+                  icon={<User className="size-6 text-foreground/80" />}
+                  label="Perfil"
+                  disabled
+                />
+                <MenuItem
+                  icon={<Sun className="size-6 text-foreground/60" />}
+                  label={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                />
+                <MenuItem
+                  icon={<Settings className="size-6 text-foreground/80" />}
+                  label="Configurações"
+                  onClick={() =>
+                    toast({
+                      title: 'Configurações do admin',
+                      description: 'Essa área será conectada na próxima etapa.',
+                    })
+                  }
+                />
+                <MenuItem
+                  icon={<LogOut className="size-6 text-foreground/80" />}
+                  label="Sair"
+                  onClick={() =>
+                    toast({
+                      title: 'Área administrativa',
+                      description: 'O fluxo de autenticação do admin entra na próxima etapa.',
+                    })
+                  }
+                />
+              </div>
+            </div>
+          )}
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

@@ -1,4 +1,7 @@
 import * as Popover from '@radix-ui/react-popover';
+import { useState } from 'react';
+import { AdminMiniPopoverSkeleton } from '@/components/admin/admin-mini-popover-skeleton';
+import { useTransientLoading } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { AdminConsumptionAuditBreakdown } from '@/data/admin-consumption-audit';
 
@@ -11,8 +14,11 @@ export function AdminConsumptionAuditBreakdownPopover({
   label,
   breakdown,
 }: AdminConsumptionAuditBreakdownPopoverProps) {
+  const [open, setOpen] = useState(false);
+  const isLoading = useTransientLoading(open);
+
   return (
-    <Popover.Root>
+    <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <button
           type="button"
@@ -29,23 +35,31 @@ export function AdminConsumptionAuditBreakdownPopover({
         side="top"
         align="center"
         sideOffset={12}
-        className={cn(
-          'z-50 w-[165px] rounded-[22px] border px-4 py-3 shadow-[0px_18px_40px_rgba(0,0,0,0.34)]',
-          'border-white/15 card-gradient-bg-modal backdrop-blur-[30px]',
-        )}
+        className="z-50 outline-none"
       >
-        <div className="space-y-1.5">
-          {breakdown.map((item) => (
-            <div key={item.label} className="flex items-center justify-between gap-4 text-[11px]">
-              <span className={cn(item.label === 'Total' ? 'font-semibold text-white' : 'text-white/60')}>
-                {item.label}
-              </span>
-              <span className={cn(item.label === 'Total' ? 'font-semibold text-white' : 'text-white/72')}>
-                {item.value}
-              </span>
+        {isLoading ? (
+          <AdminMiniPopoverSkeleton rows={5} widthClassName="w-[165px]" />
+        ) : (
+          <div
+            className={cn(
+              'w-[165px] rounded-[22px] border px-4 py-3 shadow-[0px_18px_40px_rgba(0,0,0,0.34)]',
+              'border-white/15 card-gradient-bg-modal backdrop-blur-[30px]',
+            )}
+          >
+            <div className="space-y-1.5">
+              {breakdown.map((item) => (
+                <div key={item.label} className="flex items-center justify-between gap-4 text-[11px]">
+                  <span className={cn(item.label === 'Total' ? 'font-semibold text-white' : 'text-white/60')}>
+                    {item.label}
+                  </span>
+                  <span className={cn(item.label === 'Total' ? 'font-semibold text-white' : 'text-white/72')}>
+                    {item.value}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </Popover.Content>
     </Popover.Root>
   );

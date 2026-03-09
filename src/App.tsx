@@ -3,6 +3,8 @@ import { Suspense, lazy } from 'react';
 import { AdminPageSkeleton } from '@/components/admin/admin-page-skeleton';
 import { AdminDashboardPageSkeleton } from '@/components/admin/dashboard/admin-dashboard-page-skeleton';
 import { AdminBillingPageSkeleton } from '@/components/admin/billing/admin-billing-page-skeleton';
+import { AdminFeaturesPageSkeleton } from '@/components/admin/features/admin-features-page-skeleton';
+import { AdminUsersPageSkeleton } from '@/components/admin/users/admin-users-page-skeleton';
 
 const AccountSettingsPageLazy = lazy(() =>
   import('@/pages/account-settings/account-settings-page').then((module) => ({
@@ -19,6 +21,18 @@ const AdminDashboardPageLazy = lazy(() =>
 const AdminBillingPageLazy = lazy(() =>
   import('@/pages/billing/admin-billing-page').then((module) => ({
     default: module.AdminBillingPage,
+  })),
+);
+
+const AdminUsersPageLazy = lazy(() =>
+  import('@/pages/users-admin/admin-users-page').then((module) => ({
+    default: module.AdminUsersPage,
+  })),
+);
+
+const AdminFeaturesPageLazy = lazy(() =>
+  import('@/pages/features/admin-features-page').then((module) => ({
+    default: module.AdminFeaturesPage,
   })),
 );
 
@@ -50,12 +64,36 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/users-admin"
+        element={
+          <Suspense fallback={<AdminUsersPageSkeleton />}>
+            <AdminUsersPageLazy />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/features"
+        element={
+          <Suspense fallback={<AdminFeaturesPageSkeleton />}>
+            <AdminFeaturesPageLazy />
+          </Suspense>
+        }
+      />
+      <Route
         path="/settings/account/dashboard"
         element={<Navigate to="/dashboard" replace />}
       />
       <Route
         path="/settings/account/billing"
         element={<Navigate to="/billing" replace />}
+      />
+      <Route
+        path="/settings/account/users-admin"
+        element={<Navigate to="/users-admin" replace />}
+      />
+      <Route
+        path="/settings/account/features"
+        element={<Navigate to="/features" replace />}
       />
       <Route path="/" element={<Navigate to="/settings/account" replace />} />
       <Route path="*" element={<Navigate to="/settings/account" replace />} />

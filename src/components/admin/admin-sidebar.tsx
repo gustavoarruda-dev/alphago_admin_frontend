@@ -16,15 +16,20 @@ export function AdminSidebar({
 }) {
   const renderItem = (entry: AdminSidebarLink) => {
     const isActive = entry.id === activeId;
-    const isDisabled = false;
+    const isDisabled = entry.disabled || !entry.href;
 
     return (
       <button
         key={entry.id}
         type="button"
-        onClick={() => onSelect(entry.id)}
-        className={cn('w-full text-left', isActive && 'rounded-md')}
+        onClick={() => {
+          if (isDisabled) return;
+          onSelect(entry.id);
+        }}
+        className={cn('w-full text-left', isActive && 'rounded-md', isDisabled && 'cursor-default')}
         aria-label={entry.label}
+        aria-disabled={isDisabled}
+        disabled={isDisabled}
         title={entry.label}
       >
         <div className="group/item flex items-center gap-3 p-2 rounded-md transition-colors">
@@ -53,7 +58,11 @@ export function AdminSidebar({
             <span
               className={cn(
                 'text-sm font-medium whitespace-nowrap',
-                isActive ? 'text-[#5340F6]' : 'text-foreground/80',
+                isDisabled
+                  ? 'text-foreground/40'
+                  : isActive
+                    ? 'text-[#5340F6]'
+                    : 'text-foreground/80',
               )}
             >
               {entry.label}

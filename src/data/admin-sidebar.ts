@@ -3,6 +3,7 @@ export type AdminSidebarLink = {
   label: string;
   icon: string;
   href?: string;
+  disabled?: boolean;
 };
 
 export const ADMIN_SIDEBAR_ENTRIES: AdminSidebarLink[] = [
@@ -24,14 +25,25 @@ export const ADMIN_SIDEBAR_ENTRIES: AdminSidebarLink[] = [
     icon: '/images/admin-billing.svg',
     href: '/billing',
   },
-  { id: 'users', label: 'Usuários Adm', icon: '/images/admin-users.svg' },
-  { id: 'features', label: 'Funcionalidades', icon: '/images/admin-features.svg' },
-  { id: 'access', label: 'Perfil de Acesso', icon: '/images/admin-access.svg' },
-  { id: 'plans', label: 'Planos', icon: '/images/admin-plans.svg' },
+  {
+    id: 'users',
+    label: 'Usuários Adm',
+    icon: '/images/admin-users.svg',
+    href: '/users-admin',
+  },
+  {
+    id: 'features',
+    label: 'Funcionalidades',
+    icon: '/images/admin-features.svg',
+    href: '/features',
+  },
+  { id: 'access', label: 'Perfil de Acesso', icon: '/images/admin-access.svg', disabled: true },
+  { id: 'plans', label: 'Planos', icon: '/images/admin-plans.svg', disabled: true },
 ];
 
 export const ADMIN_SIDEBAR_FOOTER: AdminSidebarLink = {
   id: 'settings',
   label: 'Configurações',
   icon: '/images/icon.svg',
+  disabled: true,
 };

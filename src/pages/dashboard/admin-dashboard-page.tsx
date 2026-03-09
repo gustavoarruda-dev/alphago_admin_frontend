@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { AdminShell } from '@/components/admin/admin-shell';
 import { AdminConsumptionAuditTableCard } from '@/components/admin/dashboard/admin-consumption-audit-table-card';
+import { AdminDashboardContentSkeleton } from '@/components/admin/dashboard/admin-dashboard-content-skeleton';
 import { AdminDashboardDonutCard } from '@/components/admin/dashboard/admin-dashboard-donut-card';
 import {
   AdminDashboardFilterPopoverContent,
@@ -19,7 +20,7 @@ import {
   type AdminDashboardFilterItem,
   type AdminDashboardTabId,
 } from '@/data/admin-dashboard';
-import { useCurrentDateTime, useToast, useTransientLoading } from '@/hooks';
+import { useCurrentDateTime, useKeyedTransientLoading, useToast, useTransientLoading } from '@/hooks';
 import { formatDateRangePt } from '@/lib/iso-date';
 
 function formatCurrency(value: number) {
@@ -65,6 +66,11 @@ export function AdminDashboardPage() {
   const [filtersByTab, setFiltersByTab] = useState<Record<AdminDashboardTabId, AdminDashboardFilterValue>>(
     () => buildInitialFiltersByTab(),
   );
+  const dashboardContentLoadingKey = JSON.stringify({
+    activeTab,
+    filters: filtersByTab[activeTab],
+  });
+  const isDashboardContentLoading = useKeyedTransientLoading(dashboardContentLoadingKey, 320);
 
   const view = ADMIN_DASHBOARD_VIEWS[activeTab];
   const activeFilters = filtersByTab[activeTab];
@@ -180,7 +186,13 @@ export function AdminDashboardPage() {
           onTabChange={setActiveTab}
         />
 
-        {isSubscribersTab ? (
+        {isDashboardContentLoading ? (
+          <AdminDashboardContentSkeleton
+            mode={isConsumptionAuditTab ? 'consumption-audit' : 'subscribers'}
+          />
+        ) : null}
+
+        {!isDashboardContentLoading && isSubscribersTab ? (
           <>
             <div className="mt-10">
               <h2 className="text-[26px] font-semibold text-slate-950 dark:text-white">
@@ -281,7 +293,7 @@ export function AdminDashboardPage() {
           </>
         ) : null}
 
-        {isConsumptionAuditTab ? (
+        {!isDashboardContentLoading && isConsumptionAuditTab ? (
           <>
             <div className="mt-10">
               <h2 className="text-[26px] font-semibold text-slate-950 dark:text-white">

@@ -3,7 +3,7 @@ import { Eye, Search } from 'lucide-react';
 import { CardGradient } from '@/components/ui/card-gradient';
 import { DataTable, type DataTableColumn, type DataTableSortState } from '@/components/ui/data-table';
 import { ButtonBorder } from '@/components/ui/button-border';
-import { useToast } from '@/hooks';
+import { useKeyedTransientLoading, useToast } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { TabularExportData } from '@/lib/export-element';
 import {
@@ -41,6 +41,12 @@ export function AdminBillingInvoicesTableCard({
   const [filters, setFilters] = useState<AdminBillingInvoicesFilterValue>(
     ADMIN_BILLING_DEFAULT_INVOICE_FILTERS,
   );
+  const tableLoadingKey = JSON.stringify({
+    searchTerm,
+    filters,
+    rowsCount: rows.length,
+  });
+  const isTableLoading = useKeyedTransientLoading(tableLoadingKey);
 
   const filteredRows = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -247,6 +253,7 @@ export function AdminBillingInvoicesTableCard({
           <DataTable
             columns={columns}
             rows={visibleRows}
+            isLoading={isTableLoading}
             getRowKey={(row) => row.id}
             minWidthPx={1160}
             variant="dark"
