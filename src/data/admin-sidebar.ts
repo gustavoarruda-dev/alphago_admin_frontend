@@ -11,7 +11,7 @@ export const ADMIN_SIDEBAR_ENTRIES: AdminSidebarLink[] = [
     id: 'account',
     label: 'Minha Conta',
     icon: '/images/admin-account.svg',
-    href: '/settings/account',
+    href: '/account',
   },
   {
     id: 'dashboard',

@@ -39,7 +39,7 @@ export function AdminPlansPage() {
           ]}
           title="Planos"
           description="Escolha o plano ideal para você"
-          backTo="/settings/account"
+          backTo="/account"
           logoLinkTo="/dashboard"
         />
 

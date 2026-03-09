@@ -31,7 +31,7 @@ export function AdminAccessProfilePage() {
           ]}
           title="Perfil de Acesso"
           description="Configure os níveis e funcionalidades para os diferentes perfis de acesso"
-          backTo="/settings/account"
+          backTo="/account"
           logoLinkTo="/dashboard"
         />
 

@@ -9,7 +9,7 @@ export function AdminPageHeader({
   return (
     <header>
       <div className="flex justify-between items-center w-full gap-3">
-        <AdminBrandMark logoLinkTo="/settings/account" />
+        <AdminBrandMark logoLinkTo="/account" />
         <AdminUserMenu />
       </div>
 

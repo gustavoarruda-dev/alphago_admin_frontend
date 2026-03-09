@@ -80,7 +80,7 @@ export function AdminFeaturesPage() {
           ]}
           title="Funcionalidades"
           description="Cadastre e organize as funcionalidades disponíveis"
-          backTo="/settings/account"
+          backTo="/account"
           logoLinkTo="/dashboard"
         />
 

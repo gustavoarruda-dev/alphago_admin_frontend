@@ -54,12 +54,16 @@ function AppRoutes() {
   return (
     <Routes>
       <Route
-        path="/settings/account"
+        path="/account"
         element={
           <Suspense fallback={<AdminPageSkeleton />}>
             <AccountSettingsPageLazy />
           </Suspense>
         }
+      />
+      <Route
+        path="/settings/account"
+        element={<Navigate to="/account" replace />}
       />
       <Route
         path="/dashboard"
@@ -133,8 +137,8 @@ function AppRoutes() {
         path="/settings/account/plans"
         element={<Navigate to="/plans" replace />}
       />
-      <Route path="/" element={<Navigate to="/settings/account" replace />} />
-      <Route path="*" element={<Navigate to="/settings/account" replace />} />
+      <Route path="/" element={<Navigate to="/account" replace />} />
+      <Route path="*" element={<Navigate to="/account" replace />} />
     </Routes>
   );
 }

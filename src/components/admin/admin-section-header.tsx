@@ -22,7 +22,7 @@ export function AdminSectionHeader({
   title,
   description,
   backTo,
-  logoLinkTo = '/settings/account',
+  logoLinkTo = '/account',
   children,
 }: AdminSectionHeaderProps) {
   const navigate = useNavigate();

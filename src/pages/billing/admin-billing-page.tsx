@@ -64,7 +64,7 @@ export function AdminBillingPage() {
           ]}
           title="Faturamento"
           description="Acompanhe receitas, transações e métricas financeiras"
-          backTo="/settings/account"
+          backTo="/account"
           logoLinkTo="/dashboard"
         />
 

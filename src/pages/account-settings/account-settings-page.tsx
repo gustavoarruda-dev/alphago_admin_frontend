@@ -24,7 +24,7 @@ export function AccountSettingsPage() {
           ]}
           title="Minha Conta"
           description="Selecione a função que deseja configurar"
-          backTo="/settings/account"
+          backTo="/account"
         />
 
         <div className="flex flex-col gap-4 mt-6 w-full">

@@ -39,7 +39,7 @@ export function AdminDashboardHeader({
             <button
               type="button"
               aria-label="Voltar"
-              onClick={() => navigate('/settings/account')}
+              onClick={() => navigate('/account')}
               className="inline-flex size-8 items-center justify-center rounded-full border border-black/10 bg-white/80 shadow-[0px_4px_18px_rgba(0,0,0,0.16)] transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring/40 dark:border-white/15 dark:bg-white/10 dark:shadow-[0px_4px_18px_rgba(0,0,0,0.35)]"
             >
               <img

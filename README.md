@@ -20,7 +20,7 @@ Frontend administrativo do AlphaGo, construído com a mesma base técnica e padr
 
 O projeto já possui a base administrativa e páginas mockadas para evolução incremental:
 
-- `Minha Conta` em `/settings/account`
+- `Minha Conta` em `/account`
 - `Dashboard` em `/dashboard`
 - `Faturamento` em `/billing`
 

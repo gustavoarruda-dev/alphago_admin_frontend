@@ -30,7 +30,7 @@ export function AdminUsersPage() {
           ]}
           title="Usuários Administrativos"
           description="Gerencie os administradores do sistema"
-          backTo="/settings/account"
+          backTo="/account"
           logoLinkTo="/dashboard"
         />
 
